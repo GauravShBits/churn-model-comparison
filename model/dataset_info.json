@@ -1,0 +1,7 @@
+{
+  "n_rows": 7043,
+  "n_features": 19,
+  "n_train": 5634,
+  "n_test": 1409,
+  "churn_rate": 0.2653698707936959
+}
