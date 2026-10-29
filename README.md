@@ -37,7 +37,7 @@ retrains or re-encodes by hand):
 
 `https://github.com/GauravShBits/churn-model-comparison`
 
-Live Streamlit app: `<PASTE YOUR STREAMLIT URL HERE>`
+Live Streamlit app: `<https://churn-model-comparison-5dkalurrhtppl3gadw88dg.streamlit.app/>`
 
 ```
 project-folder/
