@@ -76,20 +76,26 @@ Hyper-parameters: Logistic Regression (`max_iter=1000`), Decision Tree
 
 ### Observations on model performance  [3 marks]
 
+> Write 2–3 sentences per row in your own words (see the prompts). Delete this note before submitting.
+
 | ML Model Name | Observation about model performance |
 |:--|:--|
-| Logistic Regression | Best overall: highest Accuracy (0.806), AUC (0.842), F1 (0.604) and MCC (0.479). Churn depends largely on contract type, tenure and charges, which a linear boundary captures well after scaling and one-hot encoding. Recall (0.56) is only moderate because of the 26.5 % class imbalance. |
-| Decision Tree | Depth-limited tree gives the highest precision (0.668) and a strong AUC (0.838), so its churn flags are fairly trustworthy, but it misses over half of the churners (recall 0.468). Easy to interpret (contract type and tenure dominate the splits), but a single tree is less stable than a linear model. |
-| KNN | Middling on every metric (accuracy 0.777, MCC 0.422). Distance in a 45-dimensional one-hot space is noisy, which limits it; it has the lowest precision of the "balanced" models and the slowest prediction time. |
-| Naive Bayes | Lowest accuracy (0.695) and precision (0.459) but by far the highest recall (0.837): it flags most churners at the cost of many false alarms. The independence assumption is violated by correlated service columns (e.g. `InternetService` vs. streaming/security add-ons). Useful if catching every churner matters more than campaign cost. |
-| Support Vector Machine | Accuracy (0.791) close to the best models but the lowest AUC (0.791) and low recall (0.484). The default RBF configuration is conservative on the minority class; class weighting or tuning `C`/`gamma` would likely help. |
-| **Overall winner for this dataset** | **Logistic Regression** – it leads on Accuracy, AUC, F1 and MCC (MCC is the most reliable single number under class imbalance) and is simple and fast. Naive Bayes is the best choice only if recall is the priority. |
+| Logistic Regression | *(Acc 0.8055, AUC 0.8419, Recall 0.5588, MCC 0.4790. Why does a linear model suit this data? What does recall 0.56 mean for missed churners?)* |
+| Decision Tree | *(Highest precision 0.6679 but recall only 0.4679. What does that mean for a retention team? Why `max_depth=6`?)* |
+| KNN | *(Acc 0.7771, MCC 0.4217. How does distance behave across 45 encoded columns? What does `k=15` do?)* |
+| Naive Bayes | *(Recall 0.8369 but precision 0.4589, accuracy 0.6948. Why the trade-off? What does the independence assumption get wrong?)* |
+| Support Vector Machine | *(Acc 0.7913 but lowest AUC 0.7905, recall 0.4840. Why could AUC lag behind accuracy? What could you tune?)* |
+| **Overall winner for this dataset** | *(Which model, and why is MCC more reliable than accuracy with 26.5 % churners? When would you choose Naive Bayes instead?)* |
 
 ## Streamlit app features
 
-* CSV upload (test data only) with a bundled-sample fallback
+* CSV upload (test data only) with a bundled-sample option
 * Model-selection dropdown (5 models)
 * Evaluation metrics (Accuracy, AUC, Precision, Recall, F1, MCC) for the selected model
-* Confusion matrix, classification report and ROC curve
-* "All models side by side" tab comparing all five on the uploaded file
+* Confusion matrix, classification report, ROC curve and score distribution
+* Adjustable decision threshold, with metrics updating live
+* Feature-driver chart for Logistic Regression and Decision Tree
+* "Compare models" tab: all five models side by side, ranking and combined ROC curves
+* "Predict a customer" tab: score a single customer with any model
+* "Predictions" tab: filter rows and download predictions as CSV
 * Models are loaded from `model/*.joblib` – nothing is retrained in the app
