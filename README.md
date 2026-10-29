@@ -35,9 +35,9 @@ retrains or re-encodes by hand):
 
 ## c. GitHub repository link  [1 mark]
 
-`https://github.com/GauravShBits/churn-model-comparison`
+https://github.com/GauravShBits/churn-model-comparison
 
-Live Streamlit app: `<https://churn-model-comparison-5dkalurrhtppl3gadw88dg.streamlit.app/>`
+Live Streamlit app: https://churn-model-comparison-5dkalurrhtppl3gadw88dg.streamlit.app/
 
 ```
 project-folder/
