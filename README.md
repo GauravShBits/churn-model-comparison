@@ -76,16 +76,16 @@ Hyper-parameters: Logistic Regression (`max_iter=1000`), Decision Tree
 
 ### Observations on model performance  [3 marks]
 
-> Write 2–3 sentences per row in your own words (see the prompts). Delete this note before submitting.
-
 | ML Model Name | Observation about model performance |
 |:--|:--|
-| Logistic Regression | *(Acc 0.8055, AUC 0.8419, Recall 0.5588, MCC 0.4790. Why does a linear model suit this data? What does recall 0.56 mean for missed churners?)* |
-| Decision Tree | *(Highest precision 0.6679 but recall only 0.4679. What does that mean for a retention team? Why `max_depth=6`?)* |
-| KNN | *(Acc 0.7771, MCC 0.4217. How does distance behave across 45 encoded columns? What does `k=15` do?)* |
-| Naive Bayes | *(Recall 0.8369 but precision 0.4589, accuracy 0.6948. Why the trade-off? What does the independence assumption get wrong?)* |
-| Support Vector Machine | *(Acc 0.7913 but lowest AUC 0.7905, recall 0.4840. Why could AUC lag behind accuracy? What could you tune?)* |
-| **Overall winner for this dataset** | *(Which model, and why is MCC more reliable than accuracy with 26.5 % churners? When would you choose Naive Bayes instead?)* |
+| Logistic Regression | Best overall: highest Accuracy (0.8055), AUC (0.8419), F1 (0.6040) and MCC (0.4790). After scaling and one-hot encoding, a linear boundary fits this data well; the largest coefficients are tenure and two-year contracts (lower churn) and month-to-month contracts and fiber-optic internet (higher churn). Recall is only 0.5588, so about 44% of churners are still missed, partly because only 26.5% of customers churn. |
+| Decision Tree | Highest precision (0.6679) and a strong AUC (0.8383), so customers it flags are fairly likely to really churn. Recall is just 0.4679, so it misses more than half of the churners, which would leave a retention team missing many at-risk customers. Its top splits are month-to-month contract, fiber optic and tenure. I limited it to `max_depth=6` and `min_samples_leaf=20` to reduce overfitting. |
+| KNN | Middle of the pack on most metrics (Accuracy 0.7771, F1 0.5722), with the lowest MCC (0.4217). Distances are computed over 45 encoded columns, mostly 0/1 dummy variables, which makes "nearest" neighbours less meaningful. `k=15` smooths the predictions, but KNN still trails Logistic Regression and is slower at prediction time because it compares against all training rows. |
+| Naive Bayes | Highest recall by far (0.8369) but the lowest precision (0.4589) and accuracy (0.6948), so it flags most churners at the cost of many false alarms. Gaussian NB assumes features are independent and normally distributed, which fits poorly here: the one-hot columns are binary, and service columns such as InternetService and the streaming and security add-ons are correlated. It is useful only if catching churners matters more than the cost of extra retention offers. |
+| Support Vector Machine | Accuracy (0.7913) is close to the best models, but it has the lowest AUC (0.7905) and low recall (0.4840). With default settings (RBF kernel, C=1.0) it favours the majority class, so many churners are missed. Tuning C and gamma, or using class weights, could improve minority-class recall. |
+| **Overall winner for this dataset** | **Logistic Regression.** It leads on Accuracy, AUC, F1 and MCC, and it is simple, fast and interpretable. With only 26.5% churners, accuracy alone can look good by favouring the majority class, so I treat MCC as the most reliable single metric. Naive Bayes would be the better choice only if recall is the priority. |
+
+*Note: KNN values can differ in the third decimal between machines because of floating-point tie-breaking among neighbours; the table above is from the BITS Virtual Lab run.*
 
 ## Streamlit app features
 
